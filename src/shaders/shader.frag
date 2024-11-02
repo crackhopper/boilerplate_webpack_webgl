@@ -2,6 +2,7 @@
 precision mediump float;
 #endif
 
+uniform mat4 worldViewProjection;
 uniform float time;
 uniform vec2 resolution; 
 

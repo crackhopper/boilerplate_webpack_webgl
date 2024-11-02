@@ -28,6 +28,8 @@
     "webpack-glsl-minify": "^1.4.2"
   },
   "dependencies": {
+    "@types/lodash": "^4.17.13",
+    "lodash": "^4.17.21",
     "twgl.js": "^5.3.1"
   }
 }
