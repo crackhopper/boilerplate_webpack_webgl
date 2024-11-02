@@ -1,4 +1,5 @@
 import * as twgl from 'twgl.js';
+import webglLessonsUI from '../lib/webgl-lessons-ui';
 const vert = require('../shaders/shader.vert');
 const frag = require('../shaders/shader.frag');
 
@@ -7,8 +8,46 @@ export function main() {
   const programInfo = twgl.createProgramInfo(gl, [vert.sourceCode, frag.sourceCode]);
  
   const arrays = {
-    position: [-1, -1, 0, 1, -1, 0, -1, 1, 0, -1, 1, 0, 1, -1, 0, 1, 1, 0],
+    position: [
+      -1, -1, 0, 
+      1, -1, 0, 
+      -1, 1, 0, 
+      -1, 1, 0, 
+      1, -1, 0, 
+      1, 1, 0
+    ],
   };
+
+  // ui
+  let translation = [200, 150];
+  let angleInRadians = 0;
+  let scale = [1, 1];
+  webglLessonsUI.setupSlider("#x", {value: translation[0], slide: updatePosition(0), max: gl.canvas.width });
+  webglLessonsUI.setupSlider("#y", {value: translation[1], slide: updatePosition(1), max: gl.canvas.height});
+  webglLessonsUI.setupSlider("#angle", {slide: updateAngle, max: 360});
+  webglLessonsUI.setupSlider("#scaleX", {value: scale[0], slide: updateScale(0), min: -5, max: 5, step: 0.01, precision: 2});
+  webglLessonsUI.setupSlider("#scaleY", {value: scale[1], slide: updateScale(1), min: -5, max: 5, step: 0.01, precision: 2});
+
+  function updatePosition(index: number) {
+    return function(event: any, ui: any) {
+      translation[index] = ui.value;
+      console.log('translation', translation);
+    };
+  }
+
+  function updateAngle(event: any, ui: any) {
+    var angleInDegrees = 360 - ui.value;
+    angleInRadians = angleInDegrees * Math.PI / 180;
+    console.log('angleInRadians', angleInRadians);
+  }
+
+  function updateScale(index: number) {
+    return function(event: any, ui: any) {
+      scale[index] = ui.value;
+      console.log('scale', scale);
+    };
+  }  
+
 
   const bufferInfo = twgl.createBufferInfoFromArrays(gl, arrays);
  
